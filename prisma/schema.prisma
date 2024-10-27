@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+// Menggunakan PostgreSQL sebagai database
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  googleId  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Testimoni {
+  id           Int      @id @default(autoincrement())
+  statusCarier String
+  nama         String
+  foto         String
+  ulasan       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt()
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  kodeBooking String // UUID sebagai primary key
+  dateTime    DateTime
+  fileCV      String // Path atau URL file CV dalam format PDF
+  email       String
+  linkMeet    String?
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+}
